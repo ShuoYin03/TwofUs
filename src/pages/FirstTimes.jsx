@@ -1,46 +1,26 @@
-import React, { useState } from "react";
-import TimelineObserver from "react-timeline-animation";
-import Timelines from "../components/Timelines";
-import styled from "styled-components";
+import React from "react";
+import Navbar from './../components/Navbar';
+import styled from 'styled-components';
+import background from '../pages/img/background.jpg'
 
 const Container = styled.div`
-  font-family: sans-serif;
-  text-align: center;
-`
-const Stub1 = styled.div`
-  line-height: 300px;
-  font-size: 24px;
-  background-color: #eae4e4;
-`
-const Stub2 = styled.div`
-  height: 1000px;
+    display: flex;
+    height: 75vh;
+    width: 97vw;
+    background-image: url(${background});
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 18px;
+    justify-self: center;
+    flex-direction: column;
 `
 
 const FirstTimes = () => {
 
-  const [message, setMessage] = useState("");
-
-  const onCallback = () => {
-    setMessage("");
-    console.log("awesome");
-  };
-
   return (
     <Container>
-      <Stub1>⬇️ scroll to start ⬇️</Stub1>
-      <TimelineObserver
-        initialColor="#e5e5e5"
-        hasReverse={true}
-        fillColor="black"
-        handleObserve={(setObserver) => (
-          <Timelines
-            callback={onCallback}
-            setObserver={setObserver}
-          />
-        )}
-        
-      />
-      <Stub2>{message}</Stub2>
+      <Navbar/>
     </Container>
   )
 }

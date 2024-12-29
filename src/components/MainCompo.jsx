@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import background from '../pages/img/background.jpg'
 
 const Container = styled.div`
-    height: 88vh;
-    width: 97vw;
-    /* display: flex; */
-    background-image: url(${background});
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    border-radius: 10px 10px 10px 10px;
+    opacity: ${props => props.isLoading ? 0 : 1};
+    transition: opacity 0.5s ease-in;
+`
+
+const LoadingContainer = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 20px 40px;
+    border-radius: 15px;
+    display: ${props => props.isLoading ? 'block' : 'none'};
+`
+
+const LoadingText = styled.div`
+    color: white;
+    font-size: 20px;
+    text-align: center;
 `
 const Text = styled.p`
-    margin-top: 210px;
+    margin-top: 150px;
     padding-left: 70px;
     color: white;
-`
-const Am = styled.p`
-    
 `
 const Date = styled.h1`
     padding-left: 70px;
@@ -39,7 +47,6 @@ const More = styled.div`
     border-width: 2px;
     border-style: solid;
     border-radius: 20px 20px 20px 20px;
-    /* margin-top: -35px; */
     font-weight: 600;
     text-align: center;
     cursor: pointer;
@@ -56,42 +63,77 @@ const RightBottom2 = styled.p`
     right: 70px;
     bottom: 50px;
 `
-const MainCompo = () => {
+
+const LoadingSpinner = styled.div`
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 10px;
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+`
+
+const Timer = () => {
     const targetDate = new window.Date('2023-01-01T04:00:00Z');
-    const [days, setDays] = useState(0);
-    const [hours, setHours] = useState(0);
-    const [minutes, setMinutes] = useState(0);
-    const [seconds, setSeconds] = useState(0);
+    const [days, setDays] = useState(null);
+    const [hours, setHours] = useState(null);
+    const [minutes, setMinutes] = useState(null);
+    const [seconds, setSeconds] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-          const now = new window.Date();
-          const timeDiff = now - targetDate;
-    
-          const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-          const hoursDiff = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutesDiff = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-          const secondsDiff = Math.floor((timeDiff % (1000 * 60)) / 1000);
-    
-          setDays(daysDiff);
-          setHours(hoursDiff);
-          setMinutes(minutesDiff);
-          setSeconds(secondsDiff);
-    
+        const calculateTime = () => {
+            const now = new window.Date();
+            const timeDiff = now - targetDate;
+      
+            const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hoursDiff = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutesDiff = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const secondsDiff = Math.floor((timeDiff % (1000 * 60)) / 1000);
+      
+            setDays(daysDiff);
+            setHours(hoursDiff);
+            setMinutes(minutesDiff);
+            setSeconds(secondsDiff);
+        };
+
+        // 初始计算
+        calculateTime();
+        // 设置短暂的加载状态
+        setTimeout(() => {
+            setIsLoading(false);
         }, 1000);
-    
+
+        const interval = setInterval(calculateTime, 1000);
         return () => clearInterval(interval);
-    });
+    }, []);
 
     return (
-        <Container>
-            <Text>距离和你相爱的第一天已经</Text>
-            <Date>{days}天{hours}时{minutes}分{seconds}秒</Date>
-            <More>我们的精彩</More>
-            <RightBottom1>吾爱花亦语</RightBottom1>
-            <RightBottom2>卿影入凡心</RightBottom2>
-        </Container>
+        <>
+            <LoadingContainer isLoading={isLoading}>
+                <LoadingSpinner />
+                <LoadingText>Loading...</LoadingText>
+            </LoadingContainer>
+            
+            <Container isLoading={isLoading}>
+                <Text>距离和你相爱的第一天已经</Text>
+                <Date>
+                    {days !== null ? `${days}天${hours}时${minutes}分${seconds}秒` : '计算中...'}
+                </Date>
+                <More>我们的精彩</More>
+                <RightBottom1>Don't Panic about the time</RightBottom1>
+                <RightBottom2>卿影入凡心</RightBottom2>
+            </Container>
+        </>
     )
 }
 
-export default MainCompo
+export default Timer

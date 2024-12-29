@@ -1,23 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Navbar from './../components/Navbar';
-import MainCompo from '../components/MainCompo';
+import Timer from '../components/MainCompo';
 import styled from 'styled-components';
+import background from '../pages/img/background.jpg'
 
 const Container = styled.div`
     display: flex;
+    height: 95vh;
+    width: 97vw;
+    background-image: url(${background});
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 18px;
+    justify-self: center;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 20px;
 `
 
 const Homepage = () => {
     return (
         <Container>
             <Navbar/>
-            <MainCompo/>
+            <Timer/>
         </Container>
     )
 }

@@ -1,50 +1,67 @@
 import React from 'react';
 import styled from 'styled-components';
-import twofus from '../pages/img/TwofUs.png'
 import { Link } from 'react-router-dom';
 import { ReactComponent as List } from '../pages/img/list.svg'
+
 const Container = styled.div`
-    width: 100vw;
-    height: 60px;
-`
-const Wrapper = styled.div`
-    padding: 0px 35px;
+    width: 100%;
+    height: 80px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-`
-const Image = styled.div`
-    height: 60px;
-    width: 100px;
-    background-image: url(${twofus});
-    background-size: 200%;
-    background-repeat: no-repeat;
-    background-position: center;
+    margin-top: 10px;
 `
 const Left = styled.div`
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
 `
 const Center = styled.div`
-    width: 0px;
     flex: 1;
     display: flex;
-    text-align: center;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 80px;
 `
-const Right = styled.div`  
-    flex:1;
+const Right = styled.div` 
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: flex-end;
 `
 const MenuItem = styled.span`
-    color: #000000;
+    color: #ffffff;
     font-size: 15px;
-    font-weight: 800;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    &:hover {
+        transform: translateY(3px);
+    }
 `
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  position: relative;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: #ffffff;
+    transition: width 0.3s ease;
+  }
+  
+  &:hover {
+    transform: translateY(3px);
+    
+    &:after {
+      width: 100%;
+    }
+  }
+`;
 
 const Navbar = () => {
 
@@ -52,26 +69,22 @@ const Navbar = () => {
         "第一次": "firsttimes",
         "倒计时": "countdowns",
         "瞬间": "moments",
-        "未来计划": "futureplans"
+        "未来": "futureplans"
     };
 
     return (
         <Container>
-            <Wrapper>
-                <Left>
-                    <Image></Image>
-                </Left>
-                <Center>
-                    {Object.entries(menuitem).map(([key, value]) => (
-                        <Link to={`/${value}`} style={{textDecoration: 'none'}} key={value}>
-                            <MenuItem key={key}>{key}</MenuItem>
-                        </Link>
-                    ))}
-                </Center>
-                <Right>
-                    <List></List>
-                </Right>
-            </Wrapper>
+            <Left/>
+            <Center>
+                {Object.entries(menuitem).map(([key, value]) => (
+                    <StyledLink to={`/${value}`} key={value}>
+                        <MenuItem key={key}>{key}</MenuItem>
+                    </StyledLink> 
+                ))}
+            </Center>   
+            <Right>
+                <List/>
+            </Right>
         </Container>
     )
 }

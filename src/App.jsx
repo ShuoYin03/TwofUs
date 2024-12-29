@@ -4,7 +4,6 @@ import FirstTimes from './pages/FirstTimes';
 import FuturePlans from './pages/FuturePlans';
 import Moments from './pages/Moments';
 import Countdowns from './pages/Countdowns';
-// import styled from 'styled-components';
 
 import {
   BrowserRouter as Router,
