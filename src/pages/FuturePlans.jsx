@@ -7,6 +7,7 @@ import image2 from '../pages/img/2.jpg'
 import Title from "../components/Title";
 import Card from '../components/Card';
 import plansData from '../data/futurePlans.json';
+import { AnimatePresence } from 'framer-motion';
 
 const Container = styled.div`
     display: flex;
@@ -86,16 +87,18 @@ const FuturePlans = () => {
         {incompletePlans.length > 0 && (
           <>
             <SectionTitle>未相遇的精彩</SectionTitle>
-            {incompletePlans.map(plan => (
-              <Card
-                key={plan.id}
-                imageUrl={plan.imageUrl}
-                title={plan.title}
-                description={plan.description}
-                completed={plan.completed}
-                onStatusChange={(newStatus) => handleStatusChange(plan.id, newStatus)}
-              />
-            ))}
+            <AnimatePresence>
+              {incompletePlans.map(plan => (
+                <Card
+                  key={plan.id}
+                  imageUrl={plan.imageUrl}
+                  title={plan.title}
+                  description={plan.description}
+                  completed={plan.completed}
+                  onStatusChange={(newStatus) => handleStatusChange(plan.id, newStatus)}
+                />
+              ))}
+            </AnimatePresence>
           </>
         )}
         
