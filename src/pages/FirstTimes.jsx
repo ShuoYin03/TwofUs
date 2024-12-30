@@ -3,6 +3,10 @@ import Navbar from './../components/Navbar';
 import styled from 'styled-components';
 import background from '../pages/img/background.jpg'
 import Title from "../components/Title";
+import Timeline from '../components/Timeline';
+import timelineData from '../data/firstTimes.json';
+import image1 from '../pages/img/1.jpg'
+import image2 from '../pages/img/2.jpg'
 
 const Container = styled.div`
     display: flex;
@@ -17,13 +21,31 @@ const Container = styled.div`
     flex-direction: column;
 `
 
-const FirstTimes = () => {
+// 创建图片映射
+const images = {
+  background,
+  image1,
+  image2
+}
 
+// 修改数据中的图片路径
+const eventsWithImages = {
+  ...timelineData,
+  events: timelineData.events.map(event => ({
+    ...event,
+    imageUrl: event.imageKey ? images[event.imageKey] : null
+  }))
+}
+
+const FirstTimes = () => {
   return (
-    <Container>
-      <Navbar/>
-      <Title text="First Times"/>
-    </Container>
+    <>
+      <Container>
+        <Navbar/>
+        <Title text="First Times"/>
+      </Container>
+      <Timeline events={eventsWithImages.events} />
+    </>
   )
 }
 

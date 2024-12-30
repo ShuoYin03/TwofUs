@@ -1,0 +1,28 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "date": "2023-01-01",
+      "title": "第一次相遇",
+      "description": "在那个特别的夜晚，我们的故事开始了",
+      "imageKey": "background",
+      "position": "left"
+    },
+    {
+      "id": 2,
+      "date": "2023-02-14",
+      "title": "第一次约会",
+      "description": "一起看了场电影，分享了第一次晚餐",
+      "imageKey": "background",
+      "position": "right"
+    },
+    {
+      "id": 3,
+      "date": "2023-03-21",
+      "title": "第一次旅行",
+      "description": "我们的第一次短途旅行，去了海边",
+      "imageKey": "background",
+      "position": "left"
+    }
+  ]
+} 
