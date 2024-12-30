@@ -2,6 +2,8 @@ import React from 'react'
 import Navbar from './../components/Navbar';
 import styled from 'styled-components';
 import background from '../pages/img/background.jpg'
+import Title from "../components/Title";
+import Card from '../components/Card';
 
 const Container = styled.div`
     display: flex;
@@ -18,9 +20,17 @@ const Container = styled.div`
 
 const Countdowns = () => {
   return (
-    <Container>
-      <Navbar/>
-    </Container>
+    <>
+      <Container>
+        <Navbar/>
+        <Title text="Countdowns"/>
+      </Container>
+      <Card 
+        imageUrl={background}
+        title="约会计划"
+        description="这周末去看电影"
+      />
+    </>
   )
 }
 

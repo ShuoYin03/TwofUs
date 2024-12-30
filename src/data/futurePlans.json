@@ -1,0 +1,46 @@
+{
+  "plans": [
+    {
+        "id": 1,
+        "imageKey": "background",
+        "title": "去迪士尼",
+        "description": "一起去迪士尼乐园玩，看烟花表演",
+        "completed": false
+    },
+    {
+        "id": 2,
+        "imageKey": "background",
+        "title": "看日出",
+        "description": "早起去海边看日出",
+        "completed": true
+    },
+    {
+        "id": 3,
+        "imageKey": "background",
+        "title": "旅行计划",
+        "description": "去一次长途旅行，记录美好时光",
+        "completed": false
+    },
+    {
+        "id": 4,
+        "imageKey": "background",
+        "title": "去迪士尼",
+        "description": "一起去迪士尼乐园玩，看烟花表演",
+        "completed": false
+    },
+    {
+        "id": 5,
+        "imageKey": "background",
+        "title": "看日出",
+        "description": "早起去海边看日出",
+        "completed": false
+    },
+    {
+        "id": 6,
+        "imageKey": "background",
+        "title": "旅行计划",
+        "description": "去一次长途旅行，记录美好时光",
+        "completed": false
+    }
+  ]
+} 
