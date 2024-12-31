@@ -21,14 +21,12 @@ const Container = styled.div`
     flex-direction: column;
 `
 
-// 创建图片映射
 const images = {
   background,
   image1,
   image2
 }
 
-// 修改数据中的图片路径
 const eventsWithImages = {
   ...timelineData,
   events: timelineData.events.map(event => ({

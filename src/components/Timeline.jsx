@@ -1,106 +1,145 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 
 const TimelineContainer = styled.div`
   position: relative;
   max-width: 1200px;
-  margin: 20px auto;
+  margin: 50px auto;
   padding: 20px;
 `;
 
-const CenterLine = styled.div`
+const TimelineLine = styled.div`
   position: absolute;
-  width: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  top: 0;
-  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
+  width: 3px;
+  height: 100%;
+  background-color: #000000;
+  top: 0;
 `;
 
-const TimelineEvent = styled(motion.div)`
+const TimelineItem = styled.div`
   display: flex;
-  justify-content: ${props => props.position === 'left' ? 'flex-end' : 'flex-start'};
-  padding-left: ${props => props.position === 'right' ? '50%' : '0'};
-  padding-right: ${props => props.position === 'left' ? '50%' : '0'};
+  width: 100%;
   margin: 40px 0;
   position: relative;
+  
+  ${props => props.position === 'left' ? `
+    justify-content: flex-start;
+    padding-right: 50%;
+    .timeline-card {
+      margin-right: 30px;
+    }
+  ` : `
+    justify-content: flex-start;
+    padding-left: 56%;
+    .timeline-card {
+      margin-left: 30px;
+    }
+  `}
 `;
 
-const EventContent = styled(motion.div)`
-  width: 400px;
-  margin: ${props => props.position === 'left' ? '0 40px 0 0' : '0 0 0 40px'};
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  padding: 20px;
-  border-radius: 10px;
+const TimelineCard = styled.div`
+  width: 500px;
+  height: 400px;
+  background: white;
+  cursor: pointer;
   position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: white;
-    border-radius: 50%;
-    top: 50%;
-    ${props => props.position === 'left' ? 'right: -50px' : 'left: -50px'};
-    transform: translateY(-50%);
-  }
+  overflow: hidden;
 `;
 
-const EventDate = styled.div`
-  font-size: 0.9rem;
-  color: #ffffff;
+const TimelineImage = styled.img`
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 4px;
   margin-bottom: 10px;
 `;
 
-const EventTitle = styled.h3`
-  color: #ffffff;
-  margin: 0 0 10px 0;
-`;
-
-const EventDescription = styled.p`
-  color: #ffffff;
+const TimelineTitle = styled.h3`
   margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  color: #333;
+  font-size: 1.5rem;
 `;
 
-const EventImage = styled.img`
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 15px;
+const TimelineDate = styled.p`
+  color: #666;
+  margin: 5px 0;
+`;
+
+const TimelineContent = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  ${props => props.expanded ? `
+    justify-content: flex-start;
+    padding-top: 20px;
+  ` : `
+    justify-content: flex-start;
+  `}
+`;
+
+const TimelineDescription = styled.p`
+  color: #444;
+  line-height: 1.6;
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 10px;
+  margin-top: 15px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+  }
 `;
 
 const Timeline = ({ events }) => {
+  const [expandedCards, setExpandedCards] = useState({});
+
+  const toggleCard = (id) => {
+    setExpandedCards(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
   return (
     <TimelineContainer>
-      <CenterLine />
-      {events.map((event, index) => (
-        <TimelineEvent
-          key={event.id}
-          position={event.position}
-          initial={{ opacity: 0, x: event.position === 'left' ? 50 : -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: index * 0.2 }}
-        >
-          <EventContent position={event.position}>
-            {event.imageUrl && (
-              <EventImage src={event.imageUrl} alt={event.title} />
-            )}
-            <EventDate>{new Date(event.date).toLocaleDateString()}</EventDate>
-            <EventTitle>{event.title}</EventTitle>
-            <EventDescription>{event.description}</EventDescription>
-          </EventContent>
-        </TimelineEvent>
+      <TimelineLine />
+      {events.map((event) => (
+        <TimelineItem key={event.id} position={event.position}>
+          <TimelineCard 
+            className="timeline-card"
+            onClick={() => toggleCard(event.id)}
+          >
+            <TimelineContent expanded={expandedCards[event.id]}>
+              {!expandedCards[event.id] ? (
+                <>
+                  <TimelineImage src={event.imageUrl} alt={event.title} />
+                  <TimelineTitle>{event.title}</TimelineTitle>
+                  <TimelineDate>{event.date}</TimelineDate>
+                </>
+              ) : (
+                <>
+                  <TimelineTitle>{event.title}</TimelineTitle>
+                  <TimelineDate>{event.date}</TimelineDate>
+                  <TimelineDescription>{event.description}</TimelineDescription>
+                </>
+              )}
+            </TimelineContent>
+          </TimelineCard>
+        </TimelineItem>
       ))}
     </TimelineContainer>
   );
 };
 
-export default Timeline; 
+export default Timeline;
