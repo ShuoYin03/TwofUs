@@ -42,10 +42,9 @@ const TimelineItem = styled.div`
 const TimelineCard = styled.div`
   width: 500px;
   height: 400px;
-  background: white;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
+  perspective: 1000px;
 `;
 
 const TimelineImage = styled.img`
@@ -69,14 +68,33 @@ const TimelineDate = styled.p`
 
 const TimelineContent = styled.div`
   height: 100%;
+  width: 100%;
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  transform: ${props => props.expanded ? 'rotateY(180deg)' : 'rotateY(0)'};
+`;
+
+const CardFront = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: white;
   display: flex;
   flex-direction: column;
-  ${props => props.expanded ? `
-    justify-content: flex-start;
-    padding-top: 20px;
-  ` : `
-    justify-content: flex-start;
-  `}
+`;
+
+const CardBack = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: white;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 `;
 
 const TimelineDescription = styled.p`
@@ -121,19 +139,16 @@ const Timeline = ({ events }) => {
             onClick={() => toggleCard(event.id)}
           >
             <TimelineContent expanded={expandedCards[event.id]}>
-              {!expandedCards[event.id] ? (
-                <>
-                  <TimelineImage src={event.imageUrl} alt={event.title} />
-                  <TimelineTitle>{event.title}</TimelineTitle>
-                  <TimelineDate>{event.date}</TimelineDate>
-                </>
-              ) : (
-                <>
-                  <TimelineTitle>{event.title}</TimelineTitle>
-                  <TimelineDate>{event.date}</TimelineDate>
-                  <TimelineDescription>{event.description}</TimelineDescription>
-                </>
-              )}
+              <CardFront>
+                <TimelineImage src={event.imageUrl} alt={event.title} />
+                <TimelineTitle>{event.title}</TimelineTitle>
+                <TimelineDate>{event.date}</TimelineDate>
+              </CardFront>
+              <CardBack>
+                <TimelineTitle>{event.title}</TimelineTitle>
+                <TimelineDate>{event.date}</TimelineDate>
+                <TimelineDescription>{event.description}</TimelineDescription>
+              </CardBack>
             </TimelineContent>
           </TimelineCard>
         </TimelineItem>
