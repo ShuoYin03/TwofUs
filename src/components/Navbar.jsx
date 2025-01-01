@@ -66,7 +66,7 @@ const StyledLink = styled(Link)`
 const Navbar = () => {
 
     const menuitem = {
-        "第一次": "firsttimes",
+        "里程碑": "firsttimes",
         "倒计时": "countdowns",
         "瞬间": "moments",
         "未来": "futureplans"
