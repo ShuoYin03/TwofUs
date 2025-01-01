@@ -63,8 +63,16 @@ const CountdownCard = ({ title, targetDate, frequency, color, isMain = false }) 
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
-      const target = new Date(targetDate);
-      const difference = target - now;
+      const [year, month, day] = targetDate.split('-').map(num => parseInt(num));
+      
+      let nextDate = new Date(now.getFullYear(), month - 1, day);
+      
+      // 如果今年的纪念日已经过去，使用明年的日期
+      if (nextDate < now) {
+        nextDate = new Date(now.getFullYear() + 1, month - 1, day);
+      }
+
+      const difference = nextDate - now;
 
       if (difference > 0) {
         setTimeLeft({
@@ -72,6 +80,13 @@ const CountdownCard = ({ title, targetDate, frequency, color, isMain = false }) 
           hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
           minutes: Math.floor((difference / 1000 / 60) % 60),
           seconds: Math.floor((difference / 1000) % 60)
+        });
+      } else {
+        setTimeLeft({
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0
         });
       }
     };
